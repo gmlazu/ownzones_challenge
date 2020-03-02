@@ -1,0 +1,79 @@
+swagger: "2.0"
+info:
+  description: "Image delivery microservice for serving and resizing stored files"
+  version: "1.0.0"
+  title: "Ownzones Node.JS challenge"
+  contact:
+    email: "lazugeorgem@gmail.com"
+host: "localhost:3000"
+schemes:
+  - http
+basePath: "/"
+tags:
+  - name: "Image"
+  - name: "Health"
+paths:
+  /image:
+    get:
+      tags:
+        - "Image"
+      summary: "Retrieves a list of stored images"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Request successful, image list received"
+          schema:
+            $ref: "#/definitions/ImageList"
+        404:
+          description: "Storage folder does not exist"
+  /image/{fileName}:
+    get:
+      tags:
+        - "Image"
+      summary: "Retrieves an image from the server by file name"
+      description: "Fetch an image by file name. Optionally, you can resize the image"
+      produces:
+        - "image/jpeg"
+      parameters:
+        - name: "fileName"
+          in: "path"
+          description: "The name of the file you wish to retrieve"
+          required: true
+          type: "string"
+        - in: query
+          name: size
+          required: false
+          type: string
+          description: "Resolution to which to resize the image. Format: `WxH`"
+      responses:
+        200:
+          description: "Request successful, Image received"
+        404:
+          description: "Image does not exist"
+        500:
+          description: "An I/O error occured while processing your request"
+  /health:
+    get:
+      tags:
+        - "Health"
+      summary: "Retrieves health"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Request successful, health stats received"
+          schema:
+            $ref: "#/definitions/Health"
+definitions:
+  ImageList:
+    type: "array"
+    items:
+        type: string
+  Health:
+    type: "object"
+    properties:
+      cacheHits:
+        type: number
+      cacheMisses:
+        type: number

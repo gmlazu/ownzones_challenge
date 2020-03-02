@@ -1,0 +1,15 @@
+local:
+  express:
+    port: 3000
+  cache:
+    ttl: 120
+test:
+  express:
+    port: 80
+  cache:
+    ttl: 120
+prod:
+  express:
+    port: 80
+  cache:
+    ttl: 1200

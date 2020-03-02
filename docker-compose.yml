@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  ownzones_challenge:
+    container_name: ownzones_challenge
+    volumes:
+      - type: bind
+        source: ./build
+        target: /usr/src/ownzones_challenge
+    restart: always
+    build: .
+    environment:
+      NODE_ENV: test
+    ports:
+    - "80:80"
